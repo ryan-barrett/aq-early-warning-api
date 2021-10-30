@@ -12,8 +12,11 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
-    @Autowired
-    private WeatherService weatherService;
+    private final WeatherService weatherService;
+
+    WeatherController(@Autowired WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
 
     @GetMapping("/pollution")
     public Mono<PollutionStatusDTO> getPollution(@RequestParam("latitude") Float latitude,
