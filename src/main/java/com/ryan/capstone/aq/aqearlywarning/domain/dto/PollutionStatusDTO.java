@@ -1,6 +1,8 @@
-package com.ryan.capstone.aq.aqearlywarning.domain;
+package com.ryan.capstone.aq.aqearlywarning.domain.dto;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.openweather.PollutionListItem;
+
+import java.util.Objects;
 
 public class PollutionStatusDTO {
     Float latitude;
@@ -50,5 +52,29 @@ public class PollutionStatusDTO {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PollutionStatusDTO that = (PollutionStatusDTO) o;
+        return aqi == that.aqi && date == that.date && Objects.equals(latitude, that.latitude) && Objects.equals(longitude, that.longitude) && Objects.equals(aqiComponents, that.aqiComponents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(latitude, longitude, aqi, aqiComponents, date);
+    }
+
+    @Override
+    public String toString() {
+        return "PollutionStatusDTO{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", aqi=" + aqi +
+                ", aqiComponents=" + aqiComponents +
+                ", date=" + date +
+                '}';
     }
 }

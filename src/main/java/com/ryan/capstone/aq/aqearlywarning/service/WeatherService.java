@@ -1,6 +1,6 @@
 package com.ryan.capstone.aq.aqearlywarning.service;
 
-import com.ryan.capstone.aq.aqearlywarning.domain.PollutionStatusDTO;
+import com.ryan.capstone.aq.aqearlywarning.domain.dto.PollutionStatusDTO;
 import com.ryan.capstone.aq.aqearlywarning.domain.openweather.PollutionResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
