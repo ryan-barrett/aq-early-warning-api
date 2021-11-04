@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 import java.util.Objects;
+import java.time.LocalDateTime;
 
 public class UserAccount {
     @Id
@@ -11,23 +12,23 @@ public class UserAccount {
     private String email;
     private String firstName;
     private String lastName;
-    private Date lastChecked;
+    private LocalDateTime lastChecked;
 
     UserAccount() {
     }
 
-    public UserAccount(String email, String firstName, String lastName, Date lastChecked) {
+    public UserAccount(String email, String firstName, String lastName, LocalDateTime lastChecked) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastChecked = lastChecked;
     }
 
-    public Date getLastChecked() {
+    public LocalDateTime getLastChecked() {
         return lastChecked;
     }
 
-    public void setLastChecked(Date lastChecked) {
+    public void setLastChecked(LocalDateTime lastChecked) {
         this.lastChecked = lastChecked;
     }
 

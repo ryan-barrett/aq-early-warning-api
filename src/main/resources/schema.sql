@@ -4,7 +4,7 @@ CREATE TABLE USER_ACCOUNT
     email        CHAR(50) NOT NULL,
     first_name   CHAR(50),
     last_name    CHAR(50),
-    last_checked DATE
+    last_checked TIMESTAMP
 )
 
 CREATE TABLE USER_SETTINGS

@@ -9,17 +9,21 @@ public class UserSettings {
     private Integer id;
     private Integer userId;
     private Integer maxAqi;
-    private Integer latitude;
-    private Integer longitude;
+    private Float latitude;
+    private Float longitude;
 
     public UserSettings() {
     }
 
-    UserSettings(Integer userId, Integer maxAqi, Integer longitude, Integer latitude) {
+    public UserSettings(Integer userId, Integer maxAqi, Float longitude, Float latitude) {
         this.userId = userId;
         this.maxAqi = maxAqi;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public UserSettings(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -46,19 +50,19 @@ public class UserSettings {
         this.maxAqi = maxAqi;
     }
 
-    public Integer getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Integer latitude) {
+    public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
-    public Integer getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Integer longitude) {
+    public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
 

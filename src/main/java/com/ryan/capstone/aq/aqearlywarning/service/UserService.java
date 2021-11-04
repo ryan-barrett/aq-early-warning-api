@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -22,8 +22,37 @@ public class UserService {
         this.userSettingsRepository = userSettingsRepository;
     }
 
+    public Mono<UserAccount> getUserAccount(Integer id) {
+        return userAccountRepository.findById(id)
+                .map(userAccount -> {
+                    userAccount.setEmail(userAccount.getEmail().trim());
+                    userAccount.setFirstName(userAccount.getFirstName().trim());
+                    userAccount.setLastName(userAccount.getLastName().trim());
+                    return userAccount;
+                });
+    }
+
+    public Mono<UserSettings> getUserSettings(Integer id) {
+        return userSettingsRepository.findByUserId(id).last();
+    }
+
     public Mono<UserAccount> createUserAccount(String email, String firstName, String lastName) {
-        Date now = new java.util.Date();
+        LocalDateTime now = LocalDateTime.now();
         return userAccountRepository.save(new UserAccount(email, firstName, lastName, now));
+    }
+
+    public Mono<UserSettings> createUserSettings(Integer userId, Integer maxAqi, Float longitude, Float latitude) {
+        return userSettingsRepository.save(new UserSettings(userId, maxAqi, longitude, latitude));
+    }
+
+    public Mono<UserAccount> updateUserAccount(UserAccount updatedUser) {
+        if (updatedUser.getLastChecked() == null) {
+            updatedUser.setLastChecked(LocalDateTime.now());
+        }
+        return userAccountRepository.save(updatedUser);
+    }
+
+    public Mono<UserSettings> updateUserSettings(UserSettings userSettings) {
+        return userSettingsRepository.save(userSettings);
     }
 }
