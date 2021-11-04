@@ -2,6 +2,7 @@ package com.ryan.capstone.aq.aqearlywarning.domain;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class UserAccount {
@@ -10,18 +11,32 @@ public class UserAccount {
     private String email;
     private String firstName;
     private String lastName;
+    private Date lastChecked;
 
     UserAccount() {
     }
 
-    public UserAccount(String email, String firstName, String lastName) {
+    public UserAccount(String email, String firstName, String lastName, Date lastChecked) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.lastChecked = lastChecked;
+    }
+
+    public Date getLastChecked() {
+        return lastChecked;
+    }
+
+    public void setLastChecked(Date lastChecked) {
+        this.lastChecked = lastChecked;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {
@@ -72,6 +87,7 @@ public class UserAccount {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", lastChecked=" + lastChecked +
                 '}';
     }
 }

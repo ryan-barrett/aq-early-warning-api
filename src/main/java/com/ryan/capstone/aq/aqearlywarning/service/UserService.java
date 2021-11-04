@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
+
 @Service
 @Transactional
 public class UserService {
@@ -21,6 +23,7 @@ public class UserService {
     }
 
     public Mono<UserAccount> createUserAccount(String email, String firstName, String lastName) {
-        return userAccountRepository.save(new UserAccount(email, firstName, lastName));
+        Date now = new java.util.Date();
+        return userAccountRepository.save(new UserAccount(email, firstName, lastName, now));
     }
 }
