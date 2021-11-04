@@ -65,6 +65,6 @@ public class UserController {
     // TODO: remove
     @GetMapping("/check")
     public Flux<UserDTO> getUsersNeedingUpdate() {
-        return userService.notifyUsers();
+        return userService.notifyUsersInDanger();
     }
 }

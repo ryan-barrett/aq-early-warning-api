@@ -63,10 +63,10 @@ public class UserService {
     }
 
     // TODO: NotificationService
-    public Flux<UserDTO> notifyUsers() {
+    public Flux<UserDTO> notifyUsersInDanger() {
         return getUsersWithExpiredLastCheck()
                 .filter(user -> user.getMaxAqi() != null)
-                .flatMap(this::getUserCurrentAqi)
+                .flatMap(this::getCurrentUserAqi)
                 .filter(user -> user.getCurrentAqi() >= user.getMaxAqi());
     }
 
@@ -80,7 +80,7 @@ public class UserService {
                 });
     }
 
-    private Mono<UserDTO> getUserCurrentAqi(UserDTO user) {
+    private Mono<UserDTO> getCurrentUserAqi(UserDTO user) {
         return weatherService.getPollution(user.getLatitude(), user.getLongitude())
                 .map(pollution -> {
                     UserDTO newUser = new UserDTO(user);
