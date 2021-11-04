@@ -6,11 +6,11 @@ public class PollutionResponse {
     Coord coord;
     List<PollutionListItem> list;
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return coord.getLon();
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return coord.getLat();
     }
 
@@ -39,22 +39,22 @@ public class PollutionResponse {
     }
 
     static class Coord {
-        Float lon;
-        Float lat;
+        Double lon;
+        Double lat;
 
-        public Float getLon() {
+        public Double getLon() {
             return lon;
         }
 
-        public void setLon(Float lon) {
+        public void setLon(Double lon) {
             this.lon = lon;
         }
 
-        public Float getLat() {
+        public Double getLat() {
             return lat;
         }
 
-        public void setLat(Float lat) {
+        public void setLat(Double lat) {
             this.lat = lat;
         }
 

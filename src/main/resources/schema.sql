@@ -12,6 +12,6 @@ CREATE TABLE USER_SETTINGS
     id        SERIAL PRIMARY KEY,
     user_id   INT NOT NULL,
     max_aqi   INT,
-    latitude  INT,
-    longitude INT
+    latitude  DOUBLE,
+    longitude DOUBLE
 );

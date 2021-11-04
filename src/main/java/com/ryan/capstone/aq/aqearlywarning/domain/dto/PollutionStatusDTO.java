@@ -5,8 +5,8 @@ import com.ryan.capstone.aq.aqearlywarning.domain.openweather.PollutionListItem;
 import java.util.Objects;
 
 public class PollutionStatusDTO {
-    Float latitude;
-    Float longitude;
+    Double latitude;
+    Double longitude;
     int aqi;
     PollutionListItem.Components aqiComponents;
     long date;
@@ -14,19 +14,19 @@ public class PollutionStatusDTO {
     public PollutionStatusDTO() {
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

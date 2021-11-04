@@ -19,8 +19,8 @@ public class WeatherController {
     }
 
     @GetMapping("/pollution")
-    public Mono<PollutionStatusDTO> getPollution(@RequestParam("latitude") Float latitude,
-                                                 @RequestParam("longitude") Float longitude) {
+    public Mono<PollutionStatusDTO> getPollution(@RequestParam("latitude") Double latitude,
+                                                 @RequestParam("longitude") Double longitude) {
         return weatherService.getPollution(latitude, longitude);
     }
 }

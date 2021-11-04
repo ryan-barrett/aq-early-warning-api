@@ -15,7 +15,7 @@ public class WeatherService {
     @Value("${openWeatherAppId}")
     private String openWeatherAppId;
 
-    public Mono<PollutionStatusDTO> getPollution(Float latitude, Float longitude) {
+    public Mono<PollutionStatusDTO> getPollution(Double latitude, Double longitude) {
         return client.get()
                 .uri("/air_pollution?lat={latitude}&lon={longitude}&appid={openWeatherAppId}",
                         latitude, longitude, openWeatherAppId)
@@ -30,7 +30,7 @@ public class WeatherService {
 
         pollutionStatus.setAqi(pollutionResponse.getList().get(0).getAqi());
         pollutionStatus.setDate(pollutionResponse.getList().get(0).getDt());
-        pollutionStatus.setLatitude(pollutionResponse.getLongitude());
+        pollutionStatus.setLatitude(pollutionResponse.getLatitude());
         pollutionStatus.setLongitude(pollutionResponse.getLongitude());
         pollutionStatus.setAqiComponents(pollutionResponse.getList().get(0).getComponents());
 

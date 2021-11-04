@@ -2,9 +2,11 @@ package com.ryan.capstone.aq.aqearlywarning.controller;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.UserAccount;
 import com.ryan.capstone.aq.aqearlywarning.domain.UserSettings;
+import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import com.ryan.capstone.aq.aqearlywarning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -26,7 +28,7 @@ public class UserController {
         return userService.getUserSettings(id);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public Mono<UserAccount> createUser(@RequestBody UserAccount account) {
         return userService.createUserAccount(account.getEmail(), account.getFirstName(), account.getLastName());
     }
@@ -58,5 +60,11 @@ public class UserController {
 
         settings.setUserId(id);
         return userService.updateUserSettings(settings);
+    }
+
+    // TODO: remove
+    @GetMapping("/check")
+    public Flux<UserDTO> getUsersNeedingUpdate() {
+        return userService.notifyUsers();
     }
 }
