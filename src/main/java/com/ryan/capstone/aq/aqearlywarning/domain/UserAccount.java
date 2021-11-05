@@ -1,5 +1,6 @@
 package com.ryan.capstone.aq.aqearlywarning.domain;
 
+import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import org.springframework.data.annotation.Id;
 
 import java.util.Date;
@@ -15,6 +16,13 @@ public class UserAccount {
     private LocalDateTime lastChecked;
 
     UserAccount() {
+    }
+
+    public UserAccount(UserDTO user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
     }
 
     public UserAccount(String email, String firstName, String lastName, LocalDateTime lastChecked) {

@@ -2,11 +2,10 @@ package com.ryan.capstone.aq.aqearlywarning.controller;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.UserAccount;
 import com.ryan.capstone.aq.aqearlywarning.domain.UserSettings;
-import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import com.ryan.capstone.aq.aqearlywarning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -62,9 +61,8 @@ public class UserController {
         return userService.updateUserSettings(settings);
     }
 
-    // TODO: remove
-    @GetMapping("/check")
-    public Flux<UserDTO> getUsersNeedingUpdate() {
-        return userService.notifyUsersInDanger();
+    @Scheduled(fixedRate = 60000)
+    public void notifyUsersInDanger() {
+        userService.notifyUsersInDanger().subscribe();
     }
 }
