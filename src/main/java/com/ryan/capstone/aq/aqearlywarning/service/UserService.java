@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-@Service
 @Transactional
+@Service
 public class UserService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserAccountRepository userAccountRepository;
@@ -51,10 +51,14 @@ public class UserService {
 
     public Mono<UserAccount> createUserAccount(String email, String firstName, String lastName) {
         LocalDateTime now = LocalDateTime.now();
-        return userAccountRepository.save(new UserAccount(email, firstName, lastName, now));
+        return userAccountRepository.save(new UserAccount(email, firstName, lastName, now))
+                .map(user -> {
+                    createUserSettings(user.getId(), null, null, null).subscribe();
+                    return user;
+                });
     }
 
-    public Mono<UserSettings> createUserSettings(Integer userId, Integer maxAqi, Double longitude, Double latitude) {
+    private Mono<UserSettings> createUserSettings(Integer userId, Integer maxAqi, Double longitude, Double latitude) {
         return userSettingsRepository.save(new UserSettings(userId, maxAqi, longitude, latitude));
     }
 

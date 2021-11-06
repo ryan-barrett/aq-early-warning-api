@@ -32,17 +32,6 @@ public class UserController {
         return userService.createUserAccount(account.getEmail(), account.getFirstName(), account.getLastName());
     }
 
-    @PostMapping("/{id}/settings")
-    public Mono<UserSettings> createUserSettings(@PathVariable Integer id, @RequestBody UserSettings settings) {
-        Integer maxAqi = settings.getMaxAqi();
-
-        if (maxAqi < 1 || maxAqi > 5) {
-            throw new IllegalArgumentException("max aqi must be between 1 and 5");
-        }
-
-        return userService.createUserSettings(id, settings.getMaxAqi(), settings.getLongitude(), settings.getLatitude());
-    }
-
     @PutMapping("/{id}")
     public Mono<UserAccount> updateUserAccount(@PathVariable Integer id, @RequestBody UserAccount account) {
         account.setId(id);
