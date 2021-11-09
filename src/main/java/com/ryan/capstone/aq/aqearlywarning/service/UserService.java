@@ -35,7 +35,7 @@ public class UserService {
         this.notificationService = notificationService;
     }
 
-    public Mono<UserAccount> getUserAccount(Integer id) {
+    public Mono<UserAccount> getUserAccount(int id) {
         return userAccountRepository.findById(id)
                 .map(userAccount -> {
                     userAccount.setEmail(userAccount.getEmail().trim());
@@ -45,7 +45,7 @@ public class UserService {
                 });
     }
 
-    public Mono<UserSettings> getUserSettings(Integer id) {
+    public Mono<UserSettings> getUserSettings(int id) {
         return userSettingsRepository.findByUserId(id).last();
     }
 
@@ -58,7 +58,7 @@ public class UserService {
                 });
     }
 
-    private Mono<UserSettings> createUserSettings(Integer userId, Integer maxAqi, Double longitude, Double latitude) {
+    private Mono<UserSettings> createUserSettings(int userId, Integer maxAqi, Double longitude, Double latitude) {
         return userSettingsRepository.save(new UserSettings(userId, maxAqi, longitude, latitude));
     }
 

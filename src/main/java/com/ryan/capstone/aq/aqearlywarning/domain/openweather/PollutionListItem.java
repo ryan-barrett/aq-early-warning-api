@@ -43,76 +43,76 @@ public class PollutionListItem {
     }
 
     public static class Components {
-        Float co;
-        Float no;
-        Float no2;
-        Float o3;
-        Float so2;
-        Float pm2_5;
-        Float pm10;
-        Float nh3;
+        float co;
+        float no;
+        float no2;
+        float o3;
+        float so2;
+        float pm2_5;
+        float pm10;
+        float nh3;
 
-        public Float getCo() {
+        public float getCo() {
             return co;
         }
 
-        public void setCo(Float co) {
+        public void setCo(float co) {
             this.co = co;
         }
 
-        public Float getNo() {
+        public float getNo() {
             return no;
         }
 
-        public void setNo(Float no) {
+        public void setNo(float no) {
             this.no = no;
         }
 
-        public Float getNo2() {
+        public float getNo2() {
             return no2;
         }
 
-        public void setNo2(Float no2) {
+        public void setNo2(float no2) {
             this.no2 = no2;
         }
 
-        public Float getO3() {
+        public float getO3() {
             return o3;
         }
 
-        public void setO3(Float o3) {
+        public void setO3(float o3) {
             this.o3 = o3;
         }
 
-        public Float getSo2() {
+        public float getSo2() {
             return so2;
         }
 
-        public void setSo2(Float so2) {
+        public void setSo2(float so2) {
             this.so2 = so2;
         }
 
-        public Float getPm2_5() {
+        public float getPm2_5() {
             return pm2_5;
         }
 
-        public void setPm2_5(Float pm2_5) {
+        public void setPm2_5(float pm2_5) {
             this.pm2_5 = pm2_5;
         }
 
-        public Float getPm10() {
+        public float getPm10() {
             return pm10;
         }
 
-        public void setPm10(Float pm10) {
+        public void setPm10(float pm10) {
             this.pm10 = pm10;
         }
 
-        public Float getNh3() {
+        public float getNh3() {
             return nh3;
         }
 
-        public void setNh3(Float nh3) {
+        public void setNh3(float nh3) {
             this.nh3 = nh3;
         }
 

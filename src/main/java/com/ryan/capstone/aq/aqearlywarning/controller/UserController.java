@@ -18,12 +18,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Mono<UserAccount> getUserAccount(@PathVariable Integer id) {
+    public Mono<UserAccount> getUserAccount(@PathVariable int id) {
         return userService.getUserAccount(id);
     }
 
     @GetMapping("/{id}/settings")
-    public Mono<UserSettings> getUserSettings(@PathVariable Integer id) {
+    public Mono<UserSettings> getUserSettings(@PathVariable int id) {
         return userService.getUserSettings(id);
     }
 
@@ -33,13 +33,13 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public Mono<UserAccount> updateUserAccount(@PathVariable Integer id, @RequestBody UserAccount account) {
+    public Mono<UserAccount> updateUserAccount(@PathVariable int id, @RequestBody UserAccount account) {
         account.setId(id);
         return userService.updateUserAccount(account);
     }
 
     @PutMapping("/{id}/settings")
-    public Mono<UserSettings> updateUserSettings(@PathVariable Integer id, @RequestBody UserSettings settings) {
+    public Mono<UserSettings> updateUserSettings(@PathVariable int id, @RequestBody UserSettings settings) {
         Integer maxAqi = settings.getMaxAqi();
 
         if (maxAqi < 1 || maxAqi > 5) {

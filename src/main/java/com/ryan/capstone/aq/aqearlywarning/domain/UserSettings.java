@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class UserSettings {
     @Id
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
     private Integer maxAqi;
     private Double latitude;
     private Double longitude;
@@ -26,19 +26,19 @@ public class UserSettings {
         this.userId = userId;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer user_id) {
+    public void setUserId(int user_id) {
         this.userId = user_id;
     }
 

@@ -3,13 +3,12 @@ package com.ryan.capstone.aq.aqearlywarning.domain;
 import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import org.springframework.data.annotation.Id;
 
-import java.util.Date;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
 public class UserAccount {
     @Id
-    private Integer id;
+    private int id;
     private String email;
     private String firstName;
     private String lastName;
@@ -42,10 +41,6 @@ public class UserAccount {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setId(int id) {

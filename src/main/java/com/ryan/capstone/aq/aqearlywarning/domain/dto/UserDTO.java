@@ -3,14 +3,14 @@ package com.ryan.capstone.aq.aqearlywarning.domain.dto;
 import java.util.Objects;
 
 public class UserDTO {
-    Integer id;
+    int id;
     Integer maxAqi;
     Double longitude;
     Double latitude;
     String email;
     String firstName;
     String lastName;
-    Integer currentAqi;
+    int currentAqi;
 
     public UserDTO() {
     }
@@ -26,7 +26,7 @@ public class UserDTO {
         this.currentAqi = user.getCurrentAqi();
     }
 
-    public UserDTO(Integer id, Integer maxAqi, Double longitude, Double latitude, String email, String firstName, String lastName) {
+    public UserDTO(int id, int maxAqi, double longitude, double latitude, String email, String firstName, String lastName) {
         this.id = id;
         this.maxAqi = maxAqi;
         this.longitude = longitude;
@@ -60,7 +60,7 @@ public class UserDTO {
         this.longitude = longitude;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -92,11 +92,11 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    public Integer getCurrentAqi() {
+    public int getCurrentAqi() {
         return currentAqi;
     }
 
-    public void setCurrentAqi(Integer currentAqi) {
+    public void setCurrentAqi(int currentAqi) {
         this.currentAqi = currentAqi;
     }
 
