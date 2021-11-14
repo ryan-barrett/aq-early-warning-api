@@ -81,7 +81,7 @@ public class AuthService {
                     .setExpectedIssuer(jwtIssuer)
                     .setExpectedAudience(jwtAudience)
                     .build();
-            
+
             return jwtConsumer.processToClaims(token);
         } catch (InvalidJwtException e) {
             logger.error(String.valueOf(e));
