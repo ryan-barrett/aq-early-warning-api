@@ -53,6 +53,11 @@ public class AuthService {
         }
 
         String userEmail = (String) claim.getClaimsMap().get("email");
+        String aud = (String) claim.getClaimsMap().get("aud");
+
+        if (!aud.equals("t.aq-early-warning-ios")) {
+            throw new AuthenticationException("invalid jwt");
+        }
         var user = userService.getUserAccountByEmail(userEmail).toProcessor().block();
 
         if (user == null) {
@@ -76,10 +81,8 @@ public class AuthService {
                     .setExpectedIssuer(jwtIssuer)
                     .setExpectedAudience(jwtAudience)
                     .build();
-
-            var claim = jwtConsumer.processToClaims(token);
-            logger.info("validated auth token for " + claim.getClaimsMap().get("email"));
-            return claim;
+            
+            return jwtConsumer.processToClaims(token);
         } catch (InvalidJwtException e) {
             logger.error(String.valueOf(e));
             return null;
