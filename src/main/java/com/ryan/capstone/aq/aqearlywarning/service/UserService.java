@@ -45,6 +45,11 @@ public class UserService {
                 .map(this::formatUserAccount);
     }
 
+    public Mono<UserAccount> getUserAccountByEmail(String email) {
+        return userAccountRepository.findByEmail(email)
+                .map(this::formatUserAccount);
+    }
+
     public Mono<UserSettings> getUserSettings(int id) {
         return userSettingsRepository.findByUserId(id).last();
     }

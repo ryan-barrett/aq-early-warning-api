@@ -17,4 +17,7 @@ public interface UserAccountRepository extends ReactiveCrudRepository<UserAccoun
 
     @Query("SELECT * FROM user_account where apple_id = :appleId")
     Mono<UserAccount> findByAppleId(String appleId);
+
+    @Query("SELECT * FROM user_account where email = :email")
+    Mono<UserAccount> findByEmail(String email);
 }

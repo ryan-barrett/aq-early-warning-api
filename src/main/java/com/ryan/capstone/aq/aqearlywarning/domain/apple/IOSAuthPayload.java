@@ -5,14 +5,12 @@ public class IOSAuthPayload {
     String email;
     String firstName;
     String lastName;
-    String token;
 
     public IOSAuthPayload(String userId, String email, String firstName, String lastName, String token) {
         this.userId = userId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.token = token;
     }
 
     public String getUserId() {
@@ -47,14 +45,6 @@ public class IOSAuthPayload {
         this.lastName = lastName;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     @Override
     public String toString() {
         return "IOSAuthPayload{" +
@@ -62,7 +52,6 @@ public class IOSAuthPayload {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", token='" + token + '\'' +
                 '}';
     }
 }

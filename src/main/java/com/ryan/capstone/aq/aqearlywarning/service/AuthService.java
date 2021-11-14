@@ -3,6 +3,7 @@ package com.ryan.capstone.aq.aqearlywarning.service;
 import com.ryan.capstone.aq.aqearlywarning.domain.apple.IOSAuthPayload;
 import com.ryan.capstone.aq.aqearlywarning.domain.apple.IOSAuthResponse;
 import org.jose4j.jwk.HttpsJwks;
+import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
@@ -11,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.naming.AuthenticationException;
 
 @Service
 public class AuthService {
@@ -23,8 +26,8 @@ public class AuthService {
         this.userService = userService;
     }
 
-    public IOSAuthResponse iosAuthenticate(IOSAuthPayload authPayload) {
-        var isValidToken = validateIosToken(authPayload.getToken());
+    public IOSAuthResponse iosLogin(String token, IOSAuthPayload authPayload) {
+        var isValidToken = validateIosToken(token) != null;
 
         if (!isValidToken) {
             throw new Error("invalid jwt token");
@@ -42,8 +45,29 @@ public class AuthService {
         return new IOSAuthResponse(user);
     }
 
-    private boolean validateIosToken(String token) {
+    public boolean iosAuth(String token) throws AuthenticationException {
+        JwtClaims claim = validateIosToken(token);
+
+        if (claim == null) {
+            throw new AuthenticationException("invalid jwt");
+        }
+
+        String userEmail = (String) claim.getClaimsMap().get("email");
+        var user = userService.getUserAccountByEmail(userEmail).toProcessor().block();
+
+        if (user == null) {
+            throw new AuthenticationException("invalid jwt");
+        }
+
+        if (user.getAppleId() == null) {
+            throw new AuthenticationException("invalid jwt");
+        }
+        return true;
+    }
+
+    private JwtClaims validateIosToken(String tokenHeader) {
         try {
+            var token = tokenHeader.replace("bearer", "").replace("Bearer", "").trim();
             HttpsJwks httpsJkws = new HttpsJwks("https://appleid.apple.com/auth/keys");
             HttpsJwksVerificationKeyResolver httpsJwksKeyResolver = new HttpsJwksVerificationKeyResolver(httpsJkws);
 
@@ -54,11 +78,11 @@ public class AuthService {
                     .build();
 
             var claim = jwtConsumer.processToClaims(token);
-            logger.info("validated auth token for " + claim);
-            return true;
+            logger.info("validated auth token for " + claim.getClaimsMap().get("email"));
+            return claim;
         } catch (InvalidJwtException e) {
             logger.error(String.valueOf(e));
-            return false;
+            return null;
         }
     }
 }
