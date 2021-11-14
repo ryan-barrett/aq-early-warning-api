@@ -34,8 +34,8 @@ public class WeatherService {
         PollutionStatusDTO pollutionStatus = new PollutionStatusDTO();
 
         // TODO: don't do this
-//        pollutionStatus.setAqi(pollutionResponse.getList().get(0).getAqi());
-        pollutionStatus.setAqi(5);
+        pollutionStatus.setAqi(pollutionResponse.getList().get(0).getAqi());
+//        pollutionStatus.setAqi(5);
         pollutionStatus.setDate(pollutionResponse.getList().get(0).getDt());
         pollutionStatus.setLatitude(pollutionResponse.getLatitude());
         pollutionStatus.setLongitude(pollutionResponse.getLongitude());

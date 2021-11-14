@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class UserDTO {
     int id;
+    String appleId;
     Integer maxAqi;
     Double longitude;
     Double latitude;
@@ -17,6 +18,7 @@ public class UserDTO {
 
     public UserDTO(UserDTO user) {
         this.id = user.getId();
+        this.appleId = user.getAppleId();
         this.maxAqi = user.getMaxAqi();
         this.longitude = user.getLongitude();
         this.latitude = user.getLatitude();
@@ -44,6 +46,14 @@ public class UserDTO {
         this.id = id;
     }
 
+    public String getAppleId() {
+        return appleId;
+    }
+
+    public void setAppleId(String appleId) {
+        this.appleId = appleId;
+    }
+
     public Integer getMaxAqi() {
         return maxAqi;
     }
@@ -60,7 +70,7 @@ public class UserDTO {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
@@ -117,6 +127,7 @@ public class UserDTO {
     public String toString() {
         return "UserDTO{" +
                 "id=" + id +
+                ", appleId='" + appleId + '\'' +
                 ", maxAqi=" + maxAqi +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +

@@ -4,6 +4,7 @@ import com.ryan.capstone.aq.aqearlywarning.domain.apple.IOSAuthPayload;
 import com.ryan.capstone.aq.aqearlywarning.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/authenticate")
@@ -15,7 +16,7 @@ public class AuthController {
     }
 
     @PostMapping("/apple")
-    public Boolean authenticate(@RequestBody IOSAuthPayload payload) {
+    public Object authenticate(@RequestBody IOSAuthPayload payload) {
         return authService.iosAuthenticate(payload);
     }
 }

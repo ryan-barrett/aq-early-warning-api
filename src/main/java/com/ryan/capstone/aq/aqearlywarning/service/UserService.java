@@ -37,12 +37,12 @@ public class UserService {
 
     public Mono<UserAccount> getUserAccount(int id) {
         return userAccountRepository.findById(id)
-                .map(userAccount -> {
-                    userAccount.setEmail(userAccount.getEmail().trim());
-                    userAccount.setFirstName(userAccount.getFirstName().trim());
-                    userAccount.setLastName(userAccount.getLastName().trim());
-                    return userAccount;
-                });
+                .map(this::formatUserAccount);
+    }
+
+    public Mono<UserAccount> getUserAccountByAppleId(String appleId) {
+        return userAccountRepository.findByAppleId(appleId)
+                .map(this::formatUserAccount);
     }
 
     public Mono<UserSettings> getUserSettings(int id) {
@@ -52,6 +52,15 @@ public class UserService {
     public Mono<UserAccount> createUserAccount(String email, String firstName, String lastName) {
         LocalDateTime now = LocalDateTime.now();
         return userAccountRepository.save(new UserAccount(email, firstName, lastName, now))
+                .map(user -> {
+                    createUserSettings(user.getId(), null, null, null).subscribe();
+                    return user;
+                });
+    }
+
+    public Mono<UserAccount> createUserAccount(String appleId, String email, String firstName, String lastName) {
+        LocalDateTime now = LocalDateTime.now();
+        return userAccountRepository.save(new UserAccount(appleId, email, firstName, lastName, now))
                 .map(user -> {
                     createUserSettings(user.getId(), null, null, null).subscribe();
                     return user;
@@ -79,23 +88,21 @@ public class UserService {
         return getUsersWithExpiredLastCheck()
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
-                .filter(user -> user.getCurrentAqi() >= user.getMaxAqi())
                 .map(user -> {
                     UserAccount updatedAccount = new UserAccount(user);
                     updateUserAccount(updatedAccount).subscribe();
-                    return notificationService.sendIosPushNotification(user.toString());
-                });
+                    return user;
+                })
+                .filter(user -> user.getCurrentAqi() >= user.getMaxAqi())
+                .map(user -> notificationService.sendIosPushNotification(user.toString()));
     }
 
     private Flux<UserDTO> getUsersWithExpiredLastCheck() {
         logger.info("fetching users with expired last_check");
-        return userAccountRepository.findUsersNeedingUpdate(LocalDateTime.now().minusSeconds(1)) // TODO: more time
+        return userAccountRepository.findUsersNeedingUpdate(LocalDateTime.now().minusMinutes(20)) // TODO: more time?
                 .map(user -> {
                     logger.info("expired user found: " + user);
-                    user.setEmail(user.getEmail().trim());
-                    user.setFirstName(user.getFirstName().trim());
-                    user.setLastName(user.getLastName().trim());
-                    return user;
+                    return formatUserDTO(user);
                 });
     }
 
@@ -108,5 +115,25 @@ public class UserService {
                     newUser.setCurrentAqi(pollution.getAqi());
                     return newUser;
                 });
+    }
+
+    private UserDTO formatUserDTO(UserDTO user) {
+        var newUser = new UserDTO(user);
+
+        if (newUser.getEmail() != null) newUser.setEmail(newUser.getEmail().trim());
+        if (newUser.getFirstName() != null) newUser.setFirstName(newUser.getFirstName().trim());
+        if (newUser.getLastName() != null) newUser.setLastName(newUser.getLastName().trim());
+        if (newUser.getAppleId() != null) newUser.setAppleId(newUser.getAppleId().trim());
+        return newUser;
+    }
+
+    private UserAccount formatUserAccount(UserAccount userAccount) {
+        var newUserAccount = new UserAccount(userAccount);
+
+        if (newUserAccount.getEmail() != null) newUserAccount.setEmail(newUserAccount.getEmail().trim());
+        if (newUserAccount.getFirstName() != null) newUserAccount.setFirstName(newUserAccount.getFirstName().trim());
+        if (newUserAccount.getLastName() != null) newUserAccount.setLastName(newUserAccount.getLastName().trim());
+        if (newUserAccount.getAppleId() != null) newUserAccount.setAppleId(newUserAccount.getAppleId().trim());
+        return newUserAccount;
     }
 }

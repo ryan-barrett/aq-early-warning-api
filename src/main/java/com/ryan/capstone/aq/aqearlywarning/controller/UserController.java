@@ -17,38 +17,38 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public Mono<UserAccount> getUserAccount(@PathVariable int id) {
-        return userService.getUserAccount(id);
-    }
-
-    @GetMapping("/{id}/settings")
-    public Mono<UserSettings> getUserSettings(@PathVariable int id) {
-        return userService.getUserSettings(id);
-    }
-
-    @PostMapping()
-    public Mono<UserAccount> createUser(@RequestBody UserAccount account) {
-        return userService.createUserAccount(account.getEmail(), account.getFirstName(), account.getLastName());
-    }
-
-    @PutMapping("/{id}")
-    public Mono<UserAccount> updateUserAccount(@PathVariable int id, @RequestBody UserAccount account) {
-        account.setId(id);
-        return userService.updateUserAccount(account);
-    }
-
-    @PutMapping("/{id}/settings")
-    public Mono<UserSettings> updateUserSettings(@PathVariable int id, @RequestBody UserSettings settings) {
-        Integer maxAqi = settings.getMaxAqi();
-
-        if (maxAqi < 1 || maxAqi > 5) {
-            throw new IllegalArgumentException("max aqi must be between 1 and 5");
-        }
-
-        settings.setUserId(id);
-        return userService.updateUserSettings(settings);
-    }
+//    @GetMapping("/{id}")
+//    public Mono<UserAccount> getUserAccount(@PathVariable int id) {
+//        return userService.getUserAccount(id);
+//    }
+//
+//    @GetMapping("/{id}/settings")
+//    public Mono<UserSettings> getUserSettings(@PathVariable int id) {
+//        return userService.getUserSettings(id);
+//    }
+//
+//    @PostMapping()
+//    public Mono<UserAccount> createUser(@RequestBody UserAccount account) {
+//        return userService.createUserAccount(account.getEmail(), account.getFirstName(), account.getLastName());
+//    }
+//
+//    @PutMapping("/{id}")
+//    public Mono<UserAccount> updateUserAccount(@PathVariable int id, @RequestBody UserAccount account) {
+//        account.setId(id);
+//        return userService.updateUserAccount(account);
+//    }
+//
+//    @PutMapping("/{id}/settings")
+//    public Mono<UserSettings> updateUserSettings(@PathVariable int id, @RequestBody UserSettings settings) {
+//        Integer maxAqi = settings.getMaxAqi();
+//
+//        if (maxAqi < 1 || maxAqi > 5) {
+//            throw new IllegalArgumentException("max aqi must be between 1 and 5");
+//        }
+//
+//        settings.setUserId(id);
+//        return userService.updateUserSettings(settings);
+//    }
 
     @Scheduled(fixedRate = 60000)
     public void notifyUsersInDanger() {

@@ -18,9 +18,9 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
-    @GetMapping("/pollution")
-    public Mono<PollutionStatusDTO> getPollution(@RequestParam("latitude") double latitude,
-                                                 @RequestParam("longitude") double longitude) {
-        return weatherService.getPollution(latitude, longitude);
-    }
+//    @GetMapping("/pollution")
+//    public Mono<PollutionStatusDTO> getPollution(@RequestParam("latitude") double latitude,
+//                                                 @RequestParam("longitude") double longitude) {
+//        return weatherService.getPollution(latitude, longitude);
+//    }
 }
