@@ -22,6 +22,15 @@ public class AuthService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserService userService;
 
+    private final HttpsJwks httpsJkws = new HttpsJwks("https://appleid.apple.com/auth/keys");
+    private final HttpsJwksVerificationKeyResolver httpsJwksKeyResolver = new HttpsJwksVerificationKeyResolver(httpsJkws);
+
+    private final JwtConsumer jwtConsumer = new JwtConsumerBuilder()
+            .setVerificationKeyResolver(httpsJwksKeyResolver)
+            .setExpectedIssuer(jwtIssuer)
+            .setExpectedAudience(jwtAudience)
+            .build();
+
     public AuthService(@Autowired UserService userService) {
         this.userService = userService;
     }
@@ -73,14 +82,6 @@ public class AuthService {
     private JwtClaims validateIosToken(String tokenHeader) {
         try {
             var token = tokenHeader.replace("bearer", "").replace("Bearer", "").trim();
-            HttpsJwks httpsJkws = new HttpsJwks("https://appleid.apple.com/auth/keys");
-            HttpsJwksVerificationKeyResolver httpsJwksKeyResolver = new HttpsJwksVerificationKeyResolver(httpsJkws);
-
-            JwtConsumer jwtConsumer = new JwtConsumerBuilder()
-                    .setVerificationKeyResolver(httpsJwksKeyResolver)
-                    .setExpectedIssuer(jwtIssuer)
-                    .setExpectedAudience(jwtAudience)
-                    .build();
 
             return jwtConsumer.processToClaims(token);
         } catch (InvalidJwtException e) {
