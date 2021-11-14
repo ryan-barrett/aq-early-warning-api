@@ -64,7 +64,7 @@ public class AuthService {
         String userEmail = (String) claim.getClaimsMap().get("email");
         String aud = (String) claim.getClaimsMap().get("aud");
 
-        if (!aud.equals("t.aq-early-warning-ios")) {
+        if (!aud.equals(jwtAudience)) {
             throw new AuthenticationException("invalid jwt");
         }
         var user = userService.getUserAccountByEmail(userEmail).toProcessor().block();
