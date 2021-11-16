@@ -65,6 +65,17 @@ public class UserController {
         return userService.updateUserSettings(settings);
     }
 
+    @PutMapping("/{id}/settings/maxAqi/{aqi}")
+    public Mono<UserSettings> updateUserSettings(@RequestHeader("authorization") String token,
+                                                 @PathVariable int id, @PathVariable int aqi) throws AuthenticationException {
+        authService.iosAuth(token);
+
+        if (aqi < 1 || aqi > 5) {
+            throw new IllegalArgumentException("max aqi must be between 1 and 5");
+        }
+        return userService.updateUserSettingsAqi(id, aqi);
+    }
+
     @Scheduled(fixedRate = 60000)
     public void notifyUsersInDanger() {
         userService.notifyUsersInDanger().subscribe();

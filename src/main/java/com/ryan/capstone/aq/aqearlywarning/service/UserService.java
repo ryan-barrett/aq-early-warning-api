@@ -88,6 +88,15 @@ public class UserService {
         return userSettingsRepository.save(userSettings);
     }
 
+    public Mono<UserSettings> updateUserSettingsAqi(int userId, int aqi) {
+        return userSettingsRepository.findByUserId(userId)
+                .flatMap(userSettings -> {
+                    System.out.println("got here " + userSettings);
+                   userSettings.setMaxAqi(aqi);
+                    return userSettingsRepository.save(userSettings);
+                }).last();
+    }
+
     public Flux<Boolean> notifyUsersInDanger() {
         logger.info("notifying users in danger");
         return getUsersWithExpiredLastCheck()
