@@ -92,7 +92,17 @@ public class UserService {
         return userSettingsRepository.findByUserId(userId)
                 .flatMap(userSettings -> {
                     System.out.println("got here " + userSettings);
-                   userSettings.setMaxAqi(aqi);
+                    userSettings.setMaxAqi(aqi);
+                    return userSettingsRepository.save(userSettings);
+                }).last();
+    }
+
+    public Mono<UserSettings> updateUserLocation(int userId, double latitude, double longitude) {
+        return userSettingsRepository.findByUserId(userId)
+                .flatMap(userSettings -> {
+                    System.out.println("got here " + userSettings);
+                    userSettings.setLatitude(latitude);
+                    userSettings.setLongitude(longitude);
                     return userSettingsRepository.save(userSettings);
                 }).last();
     }

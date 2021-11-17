@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface UserAccountRepository extends ReactiveCrudRepository<UserAccount, Integer> {
-    @Query("SELECT us.max_aqi, us.longitude, us.latitude, ua.id, ua.email, ua.first_name, ua.last_name FROM user_account AS ua INNER JOIN user_settings AS us on ua.id = us.user_id WHERE last_checked < :earlierDate LIMIT 5000")
+    @Query("SELECT us.max_aqi, us.longitude, us.latitude, ua.id, ua.email, ua.first_name, ua.last_name, ua.apple_id FROM user_account AS ua INNER JOIN user_settings AS us on ua.id = us.user_id WHERE last_checked < :earlierDate LIMIT 5000")
     Flux<UserDTO> findUsersNeedingUpdate(LocalDateTime earlierDate);
 
     @Query("SELECT * FROM user_account where apple_id = :appleId")

@@ -65,6 +65,14 @@ public class UserController {
         return userService.updateUserSettings(settings);
     }
 
+    @PutMapping("/{id}/settings/location")
+    public Mono<UserSettings> updateUserLocation(@RequestHeader("authorization") String token,
+                                                 @PathVariable int id,
+                                                 @RequestBody UserSettings settings) throws AuthenticationException {
+        authService.iosAuth(token);
+        return userService.updateUserLocation(id, settings.getLatitude(), settings.getLongitude());
+    }
+
     @PutMapping("/{id}/settings/maxAqi/{aqi}")
     public Mono<UserSettings> updateUserSettings(@RequestHeader("authorization") String token,
                                                  @PathVariable int id, @PathVariable int aqi) throws AuthenticationException {
