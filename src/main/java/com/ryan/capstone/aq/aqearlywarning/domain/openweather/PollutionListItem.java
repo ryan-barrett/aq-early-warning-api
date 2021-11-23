@@ -9,6 +9,10 @@ public class PollutionListItem {
         return main.getAqi();
     }
 
+    public void setAqi(int aqi) {
+        this.main.setAqi(aqi);
+    }
+
     public Main getMain() {
         return main;
     }

@@ -1,6 +1,7 @@
 package com.ryan.capstone.aq.aqearlywarning.controller;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.dto.PollutionStatusDTO;
+import com.ryan.capstone.aq.aqearlywarning.domain.openweather.PollutionResponse;
 import com.ryan.capstone.aq.aqearlywarning.service.AuthService;
 import com.ryan.capstone.aq.aqearlywarning.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,13 @@ public class WeatherController {
                                                  @RequestParam("longitude") double longitude) throws AuthenticationException {
         authService.iosAuth(token);
         return weatherService.getPollution(latitude, longitude);
+    }
+
+    @GetMapping("/pollution/forecast")
+    public Mono<PollutionResponse> getPollutionForecast(@RequestHeader("authorization") String token,
+                                                        @RequestParam("latitude") double latitude,
+                                                        @RequestParam("longitude") double longitude) throws AuthenticationException {
+        authService.iosAuth(token);
+        return weatherService.getPollutionForecast(latitude, longitude);
     }
 }
