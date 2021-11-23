@@ -57,7 +57,7 @@ public class UserController {
         authService.iosAuth(token);
         Integer maxAqi = settings.getMaxAqi();
 
-        if (maxAqi < 1 || maxAqi > 5) {
+        if (maxAqi < 1 || maxAqi > 500) {
             throw new IllegalArgumentException("max aqi must be between 1 and 5");
         }
 
@@ -78,7 +78,7 @@ public class UserController {
                                                  @PathVariable int id, @PathVariable int aqi) throws AuthenticationException {
         authService.iosAuth(token);
 
-        if (aqi < 1 || aqi > 5) {
+        if (aqi < 1 || aqi > 500) {
             throw new IllegalArgumentException("max aqi must be between 1 and 5");
         }
         return userService.updateUserSettingsAqi(id, aqi);
