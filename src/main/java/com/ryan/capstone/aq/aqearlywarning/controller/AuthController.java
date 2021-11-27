@@ -30,7 +30,7 @@ public class AuthController {
         IOSAuthResponse loginResponse = authService.iosLogin(payload.getToken(), payload);
         authService.iosAuth(payload.getToken());
 
-        return userService.getUserAccountByEmail(payload.getEmail())
+        return userService.getUserAccountByAppleId(payload.getUserId())
                 .flatMap(userDetails -> Mono.just(jwtUtil.generateToken(userDetails))
                         .map(jwt -> new AuthenticationResponse(jwt, loginResponse)));
     }
