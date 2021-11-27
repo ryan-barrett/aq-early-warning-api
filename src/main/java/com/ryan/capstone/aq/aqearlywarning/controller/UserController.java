@@ -9,52 +9,38 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import javax.naming.AuthenticationException;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final AuthService authService;
     private final UserService userService;
 
-    UserController(@Autowired AuthService authService, @Autowired UserService userService) {
-        this.authService = authService;
+    UserController(@Autowired UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/{id}")
-    public Mono<UserAccount> getUserAccount(@RequestHeader("authorization") String token,
-                                            @PathVariable int id) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserAccount> getUserAccount(@PathVariable int id) {
         return userService.getUserAccount(id);
     }
 
     @GetMapping("/{id}/settings")
-    public Mono<UserSettings> getUserSettings(@RequestHeader("authorization") String token,
-                                              @PathVariable int id) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserSettings> getUserSettings(@PathVariable int id) {
         return userService.getUserSettings(id);
     }
 
     @PostMapping()
-    public Mono<UserAccount> createUser(@RequestHeader("authorization") String token,
-                                        @RequestBody UserAccount account) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserAccount> createUser(@RequestBody UserAccount account) {
         return userService.createUserAccount(account.getEmail(), account.getFirstName(), account.getLastName());
     }
 
     @PutMapping("/{id}")
-    public Mono<UserAccount> updateUserAccount(@RequestHeader("authorization") String token,
-                                               @PathVariable int id, @RequestBody UserAccount account) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserAccount> updateUserAccount(@PathVariable int id, @RequestBody UserAccount account) {
         account.setId(id);
         return userService.updateUserAccount(account);
     }
 
     @PutMapping("/{id}/settings")
-    public Mono<UserSettings> updateUserSettings(@RequestHeader("authorization") String token,
-                                                 @PathVariable int id, @RequestBody UserSettings settings) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserSettings> updateUserSettings(@PathVariable int id, @RequestBody UserSettings settings) {
         Integer maxAqi = settings.getMaxAqi();
 
         if (maxAqi < 1 || maxAqi > 500) {
@@ -66,18 +52,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}/settings/location")
-    public Mono<UserSettings> updateUserLocation(@RequestHeader("authorization") String token,
-                                                 @PathVariable int id,
-                                                 @RequestBody UserSettings settings) throws AuthenticationException {
-        authService.iosAuth(token);
+    public Mono<UserSettings> updateUserLocation(@PathVariable int id, @RequestBody UserSettings settings) {
         return userService.updateUserLocation(id, settings.getLatitude(), settings.getLongitude());
     }
 
     @PutMapping("/{id}/settings/maxAqi/{aqi}")
-    public Mono<UserSettings> updateUserSettings(@RequestHeader("authorization") String token,
-                                                 @PathVariable int id, @PathVariable int aqi) throws AuthenticationException {
-        authService.iosAuth(token);
-
+    public Mono<UserSettings> updateUserSettings(@PathVariable int id, @PathVariable int aqi) {
         if (aqi < 1 || aqi > 500) {
             throw new IllegalArgumentException("max aqi must be between 1 and 5");
         }

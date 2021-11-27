@@ -82,7 +82,6 @@ public class AuthService {
     private JwtClaims validateIosToken(String tokenHeader) {
         try {
             var token = tokenHeader.replace("bearer", "").replace("Bearer", "").trim();
-
             return jwtConsumer.processToClaims(token);
         } catch (InvalidJwtException e) {
             logger.error(String.valueOf(e));

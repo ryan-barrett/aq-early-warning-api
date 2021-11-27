@@ -2,11 +2,14 @@ package com.ryan.capstone.aq.aqearlywarning.domain;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import org.springframework.data.annotation.Id;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
-public class UserAccount {
+public class UserAccount implements UserDetails {
     @Id
     private int id;
     private String appleId;
@@ -14,6 +17,11 @@ public class UserAccount {
     private String firstName;
     private String lastName;
     private LocalDateTime lastChecked;
+
+    private String username;
+    private String password;
+//    private Set<GrantedAuthority> roles = new HashSet<>();
+    private boolean active = true;
 
     UserAccount() {
     }
@@ -96,6 +104,49 @@ public class UserAccount {
 
     public void setAppleId(String appleId) {
         this.appleId = appleId;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return active;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return active;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return active;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
     }
 
     @Override

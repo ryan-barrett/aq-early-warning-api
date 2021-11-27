@@ -6,6 +6,7 @@ import com.ryan.capstone.aq.aqearlywarning.domain.dto.UserDTO;
 import com.ryan.capstone.aq.aqearlywarning.repository.UserAccountRepository;
 import com.ryan.capstone.aq.aqearlywarning.repository.UserSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -48,6 +49,10 @@ public class UserService {
     public Mono<UserAccount> getUserAccountByEmail(String email) {
         return userAccountRepository.findByEmail(email)
                 .map(this::formatUserAccount);
+    }
+
+    public Mono<UserDetails> getUserDetailsByEmail(String email) {
+        return Mono.just((UserDetails) getUserAccountByEmail(email));
     }
 
     public Mono<UserSettings> getUserSettings(int id) {
@@ -123,7 +128,7 @@ public class UserService {
 
     private Flux<UserDTO> getUsersWithExpiredLastCheck() {
         logger.info("fetching users with expired last_check");
-        return userAccountRepository.findUsersNeedingUpdate(LocalDateTime.now().minusMinutes(20)) // TODO: more time?
+        return userAccountRepository.findUsersNeedingUpdate(LocalDateTime.now().minusHours(1))
                 .map(user -> {
                     logger.info("expired user found: " + user);
                     return formatUserDTO(user);

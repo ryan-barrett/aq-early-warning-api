@@ -4,6 +4,11 @@
       "name": "openWeatherAppId",
       "type": "java.lang.String",
       "description": "api key for open weather."
+    },
+    {
+      "name": "jwtSecretKey",
+      "type": "java.lang.String",
+      "description": "secret key for api token."
     }
   ]
 }
