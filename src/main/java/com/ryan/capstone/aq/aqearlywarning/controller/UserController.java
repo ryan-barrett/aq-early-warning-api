@@ -2,7 +2,6 @@ package com.ryan.capstone.aq.aqearlywarning.controller;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.UserAccount;
 import com.ryan.capstone.aq.aqearlywarning.domain.UserSettings;
-import com.ryan.capstone.aq.aqearlywarning.service.AuthService;
 import com.ryan.capstone.aq.aqearlywarning.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

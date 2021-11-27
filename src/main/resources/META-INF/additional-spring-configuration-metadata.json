@@ -9,6 +9,11 @@
       "name": "jwtSecretKey",
       "type": "java.lang.String",
       "description": "secret key for api token."
+    },
+    {
+      "name": "googleMapsKey",
+      "type": "java.lang.String",
+      "description": "Google maps api key."
     }
   ]
 }

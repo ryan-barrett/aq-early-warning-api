@@ -2,7 +2,6 @@ package com.ryan.capstone.aq.aqearlywarning.controller;
 
 import com.ryan.capstone.aq.aqearlywarning.domain.dto.PollutionStatusDTO;
 import com.ryan.capstone.aq.aqearlywarning.domain.openweather.PollutionResponse;
-import com.ryan.capstone.aq.aqearlywarning.service.AuthService;
 import com.ryan.capstone.aq.aqearlywarning.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
