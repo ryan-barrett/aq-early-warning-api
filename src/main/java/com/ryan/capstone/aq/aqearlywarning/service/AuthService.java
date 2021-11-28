@@ -61,13 +61,13 @@ public class AuthService {
             throw new AuthenticationException("invalid jwt");
         }
 
-        String userEmail = (String) claim.getClaimsMap().get("email");
+        String appleId = (String) claim.getClaimsMap().get("sub");
         String aud = (String) claim.getClaimsMap().get("aud");
 
         if (!aud.equals(jwtAudience)) {
             throw new AuthenticationException("invalid jwt");
         }
-        var user = userService.getUserAccountByEmail(userEmail).toProcessor().block();
+        var user = userService.getUserAccountByAppleId(appleId).toProcessor().block();
 
         if (user == null) {
             throw new AuthenticationException("invalid jwt");
