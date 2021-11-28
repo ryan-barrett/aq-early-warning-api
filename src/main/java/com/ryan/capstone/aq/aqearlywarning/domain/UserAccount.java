@@ -18,10 +18,10 @@ public class UserAccount implements UserDetails {
     private String lastName;
     private LocalDateTime lastChecked;
 
-    private String username;
-    private String password;
+//    private String username;
+//    private String password;
 //    private Set<GrantedAuthority> roles = new HashSet<>();
-    private boolean active = true;
+//    private boolean active = true;
 
     UserAccount() {
     }
@@ -108,20 +108,19 @@ public class UserAccount implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.email = username;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return this.appleId;
     }
 
     public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
@@ -131,22 +130,22 @@ public class UserAccount implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return true;
     }
 
     @Override
