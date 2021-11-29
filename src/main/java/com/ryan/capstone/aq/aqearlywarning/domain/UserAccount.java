@@ -17,6 +17,7 @@ public class UserAccount implements UserDetails {
     private String firstName;
     private String lastName;
     private LocalDateTime lastChecked;
+    private Boolean isSafe;
 
 //    private String username;
 //    private String password;
@@ -32,6 +33,7 @@ public class UserAccount implements UserDetails {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.appleId = user.getAppleId();
+        this.isSafe = user.getSafe();
     }
 
     public UserAccount(UserAccount userAccount) {
@@ -41,21 +43,24 @@ public class UserAccount implements UserDetails {
         this.firstName = userAccount.getFirstName();
         this.lastName = userAccount.getLastName();
         this.lastChecked = userAccount.getLastChecked();
+        this.isSafe = userAccount.getSafe();
     }
 
-    public UserAccount(String email, String firstName, String lastName, LocalDateTime lastChecked) {
+    public UserAccount(String email, String firstName, String lastName, LocalDateTime lastChecked, Boolean isSafe) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastChecked = lastChecked;
+        this.isSafe = isSafe;
     }
 
-    public UserAccount(String appleId, String email, String firstName, String lastName, LocalDateTime lastChecked) {
+    public UserAccount(String appleId, String email, String firstName, String lastName, LocalDateTime lastChecked, Boolean isSafe) {
         this.appleId = appleId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.lastChecked = lastChecked;
+        this.isSafe = isSafe;
     }
 
     public LocalDateTime getLastChecked() {
@@ -106,6 +111,14 @@ public class UserAccount implements UserDetails {
         this.appleId = appleId;
     }
 
+    public Boolean getSafe() {
+        return isSafe;
+    }
+
+    public void setSafe(Boolean safe) {
+        isSafe = safe;
+    }
+
     @Override
     public String getUsername() {
         return email;
@@ -149,19 +162,6 @@ public class UserAccount implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserAccount that = (UserAccount) o;
-        return id == that.id && Objects.equals(appleId, that.appleId) && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(lastChecked, that.lastChecked);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, appleId, email, firstName, lastName, lastChecked);
-    }
-
-    @Override
     public String toString() {
         return "UserAccount{" +
                 "id=" + id +
@@ -170,6 +170,20 @@ public class UserAccount implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", lastChecked=" + lastChecked +
+                ", isSafe=" + isSafe +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAccount that = (UserAccount) o;
+        return id == that.id && Objects.equals(appleId, that.appleId) && Objects.equals(email, that.email) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(lastChecked, that.lastChecked) && Objects.equals(isSafe, that.isSafe);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, appleId, email, firstName, lastName, lastChecked, isSafe);
     }
 }

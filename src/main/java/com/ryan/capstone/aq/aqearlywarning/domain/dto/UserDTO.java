@@ -11,6 +11,7 @@ public class UserDTO {
     String email;
     String firstName;
     String lastName;
+    Boolean isSafe;
     int currentAqi;
 
     public UserDTO() {
@@ -28,7 +29,7 @@ public class UserDTO {
         this.currentAqi = user.getCurrentAqi();
     }
 
-    public UserDTO(int id, int maxAqi, double longitude, double latitude, String email, String firstName, String lastName) {
+    public UserDTO(int id, int maxAqi, double longitude, double latitude, String email, String firstName, String lastName, Boolean isSafe) {
         this.id = id;
         this.maxAqi = maxAqi;
         this.longitude = longitude;
@@ -36,6 +37,7 @@ public class UserDTO {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isSafe = isSafe;
     }
 
     public Integer getId() {
@@ -110,17 +112,12 @@ public class UserDTO {
         this.currentAqi = currentAqi;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return Objects.equals(id, userDTO.id) && Objects.equals(maxAqi, userDTO.maxAqi) && Objects.equals(longitude, userDTO.longitude) && Objects.equals(latitude, userDTO.latitude) && Objects.equals(email, userDTO.email) && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName);
+    public Boolean getSafe() {
+        return isSafe;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, maxAqi, longitude, latitude, email, firstName, lastName);
+    public void setSafe(Boolean safe) {
+        isSafe = safe;
     }
 
     @Override
@@ -134,7 +131,21 @@ public class UserDTO {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", isSafe=" + isSafe +
                 ", currentAqi=" + currentAqi +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return id == userDTO.id && currentAqi == userDTO.currentAqi && Objects.equals(appleId, userDTO.appleId) && Objects.equals(maxAqi, userDTO.maxAqi) && Objects.equals(longitude, userDTO.longitude) && Objects.equals(latitude, userDTO.latitude) && Objects.equals(email, userDTO.email) && Objects.equals(firstName, userDTO.firstName) && Objects.equals(lastName, userDTO.lastName) && Objects.equals(isSafe, userDTO.isSafe);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, appleId, maxAqi, longitude, latitude, email, firstName, lastName, isSafe, currentAqi);
     }
 }

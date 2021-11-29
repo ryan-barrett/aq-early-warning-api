@@ -61,7 +61,7 @@ public class UserService {
 
     public Mono<UserAccount> createUserAccount(String email, String firstName, String lastName) {
         LocalDateTime now = LocalDateTime.now();
-        return userAccountRepository.save(new UserAccount(email, firstName, lastName, now))
+        return userAccountRepository.save(new UserAccount(email, firstName, lastName, now, Boolean.TRUE))
                 .map(user -> {
                     createUserSettings(user.getId(), null, null, null).subscribe();
                     return user;
@@ -70,7 +70,7 @@ public class UserService {
 
     public Mono<UserAccount> createUserAccount(String appleId, String email, String firstName, String lastName) {
         LocalDateTime now = LocalDateTime.now();
-        return userAccountRepository.save(new UserAccount(appleId, email, firstName, lastName, now))
+        return userAccountRepository.save(new UserAccount(appleId, email, firstName, lastName, now, Boolean.TRUE))
                 .map(user -> {
                     createUserSettings(user.getId(), null, null, null).subscribe();
                     return user;
@@ -96,7 +96,6 @@ public class UserService {
     public Mono<UserSettings> updateUserSettingsAqi(int userId, int aqi) {
         return userSettingsRepository.findByUserId(userId)
                 .flatMap(userSettings -> {
-                    System.out.println("got here " + userSettings);
                     userSettings.setMaxAqi(aqi);
                     return userSettingsRepository.save(userSettings);
                 }).last();
@@ -105,7 +104,6 @@ public class UserService {
     public Mono<UserSettings> updateUserLocation(int userId, double latitude, double longitude) {
         return userSettingsRepository.findByUserId(userId)
                 .flatMap(userSettings -> {
-                    System.out.println("got here " + userSettings);
                     userSettings.setLatitude(latitude);
                     userSettings.setLongitude(longitude);
                     return userSettingsRepository.save(userSettings);
@@ -114,21 +112,52 @@ public class UserService {
 
     public Flux<Boolean> notifyUsersInDanger() {
         logger.info("notifying users in danger");
-        return getUsersWithExpiredLastCheck()
+        return getSafeUsersNeedingUpdate()
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
-                .map(user -> {
-                    UserAccount updatedAccount = new UserAccount(user);
-                    updateUserAccount(updatedAccount).subscribe();
-                    return user;
-                })
                 .filter(user -> user.getCurrentAqi() >= user.getMaxAqi())
-                .map(user -> notificationService.sendIosPushNotification(user.toString()));
+                .map(user -> {
+                    var messageSent = notificationService.sendPushNotification(user.getAppleId(), NotificationService.Notification.DANGER.message());
+
+                    if (messageSent) {
+                        UserAccount updatedAccount = new UserAccount(user);
+                        updatedAccount.setSafe(Boolean.FALSE);
+                        updateUserAccount(updatedAccount).subscribe();
+                    }
+                    return messageSent;
+                });
     }
 
-    private Flux<UserDTO> getUsersWithExpiredLastCheck() {
+    public Flux<Boolean> notifyUsersTheyAreSafe() {
+        logger.info("notifying users that it is safe");
+        return getUsersInDangerNeedingUpdate()
+                .filter(user -> user.getMaxAqi() != null)
+                .flatMap(this::getCurrentUserAqi)
+                .filter(user -> user.getCurrentAqi() < user.getMaxAqi())
+                .map(user -> {
+                    var messageSent = notificationService.sendPushNotification(user.getAppleId(), NotificationService.Notification.SAFE.message());
+
+                    if (messageSent) {
+                        UserAccount updatedAccount = new UserAccount(user);
+                        updatedAccount.setSafe(Boolean.TRUE);
+                        updateUserAccount(updatedAccount).subscribe();
+                    }
+                    return messageSent;
+                });
+    }
+
+    private Flux<UserDTO> getSafeUsersNeedingUpdate() {
         logger.info("fetching users with expired last_check");
-        return userAccountRepository.findUsersNeedingUpdate(LocalDateTime.now().minusHours(1))
+        return userAccountRepository.findSafeUsersNeedingUpdate(LocalDateTime.now().minusSeconds(5))
+                .map(user -> {
+                    logger.info("expired user found: " + user);
+                    return formatUserDTO(user);
+                });
+    }
+
+    private Flux<UserDTO> getUsersInDangerNeedingUpdate() {
+        logger.info("fetching users with expired last_check");
+        return userAccountRepository.findUsersInDangerNeedingUpdate(LocalDateTime.now().minusSeconds(5))
                 .map(user -> {
                     logger.info("expired user found: " + user);
                     return formatUserDTO(user);

@@ -58,13 +58,18 @@ public class UserController {
     @PutMapping("/{id}/settings/maxAqi/{aqi}")
     public Mono<UserSettings> updateUserSettings(@PathVariable int id, @PathVariable int aqi) {
         if (aqi < 1 || aqi > 500) {
-            throw new IllegalArgumentException("max aqi must be between 1 and 5");
+            throw new IllegalArgumentException("max aqi must be between 1 and 500");
         }
         return userService.updateUserSettingsAqi(id, aqi);
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 10000)
     public void notifyUsersInDanger() {
         userService.notifyUsersInDanger().subscribe();
+    }
+
+    @Scheduled(fixedRate = 10000)
+    public void notifyUsersTheyAreSafe() {
+        userService.notifyUsersTheyAreSafe().subscribe();
     }
 }
