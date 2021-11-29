@@ -115,6 +115,14 @@ public class UserService {
         return getSafeUsersNeedingUpdate()
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
+                .map(user -> {
+                    /**
+                     * mark account as checked so that we proceed to the next batch
+                     */
+                    UserAccount updatedAccount = new UserAccount(user);
+                    updateUserAccount(updatedAccount).subscribe();
+                    return user;
+                })
                 .filter(user -> user.getCurrentAqi() >= user.getMaxAqi())
                 .map(user -> {
                     var messageSent = notificationService.sendPushNotification(user.getAppleId(), NotificationService.Notification.DANGER.message());
@@ -133,6 +141,14 @@ public class UserService {
         return getUsersInDangerNeedingUpdate()
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
+                .map(user -> {
+                    /**
+                     * mark account as checked so that we proceed to the next batch
+                     */
+                    UserAccount updatedAccount = new UserAccount(user);
+                    updateUserAccount(updatedAccount).subscribe();
+                    return user;
+                })
                 .filter(user -> user.getCurrentAqi() < user.getMaxAqi())
                 .map(user -> {
                     var messageSent = notificationService.sendPushNotification(user.getAppleId(), NotificationService.Notification.SAFE.message());
