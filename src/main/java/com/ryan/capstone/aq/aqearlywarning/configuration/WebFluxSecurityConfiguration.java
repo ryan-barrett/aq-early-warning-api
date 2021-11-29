@@ -38,7 +38,7 @@ public class WebFluxSecurityConfiguration {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
         return http.authorizeExchange(
                         authorizeExchangeSpec -> authorizeExchangeSpec
-                                .pathMatchers("/authenticate", "/authenticate/apple").permitAll()
+                                .pathMatchers("/authenticate"/*, "/authenticate/apple"*/).permitAll()
                                 .anyExchange().authenticated()
                 )
                 .exceptionHandling()

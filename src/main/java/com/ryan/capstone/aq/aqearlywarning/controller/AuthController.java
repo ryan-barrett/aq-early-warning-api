@@ -35,8 +35,8 @@ public class AuthController {
                         .map(jwt -> new AuthenticationResponse(jwt, loginResponse)));
     }
 
-    @PostMapping("/apple")
-    public Object appleAuthentication(@RequestHeader("authorization") String token, @RequestBody IOSAuthPayload payload) {
-        return authService.iosLogin(token, payload);
-    }
+//    @PostMapping("/apple")
+//    public Object appleAuthentication(@RequestHeader("authorization") String token, @RequestBody IOSAuthPayload payload) {
+//        return authService.iosLogin(token, payload);
+//    }
 }
