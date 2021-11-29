@@ -27,6 +27,7 @@ public class UserDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.currentAqi = user.getCurrentAqi();
+        this.isSafe = user.getSafe();
     }
 
     public UserDTO(int id, int maxAqi, double longitude, double latitude, String email, String firstName, String lastName, Boolean isSafe) {
