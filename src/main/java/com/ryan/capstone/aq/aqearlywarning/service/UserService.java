@@ -63,7 +63,7 @@ public class UserService {
         LocalDateTime now = LocalDateTime.now();
         return userAccountRepository.save(new UserAccount(email, firstName, lastName, now, Boolean.TRUE))
                 .map(user -> {
-                    createUserSettings(user.getId(), null, null, null).subscribe();
+                    createUserSettings(user.getId(), null, null).subscribe();
                     return user;
                 });
     }
@@ -72,13 +72,13 @@ public class UserService {
         LocalDateTime now = LocalDateTime.now();
         return userAccountRepository.save(new UserAccount(appleId, email, firstName, lastName, now, Boolean.TRUE))
                 .map(user -> {
-                    createUserSettings(user.getId(), null, null, null).subscribe();
+                    createUserSettings(user.getId(), null, null).subscribe();
                     return user;
                 });
     }
 
-    private Mono<UserSettings> createUserSettings(int userId, Integer maxAqi, Double longitude, Double latitude) {
-        return userSettingsRepository.save(new UserSettings(userId, maxAqi, longitude, latitude));
+    private Mono<UserSettings> createUserSettings(int userId, Double longitude, Double latitude) {
+        return userSettingsRepository.save(new UserSettings(userId, 50, longitude, latitude));
     }
 
     public Mono<UserAccount> updateUserAccount(UserAccount updatedUser) {
