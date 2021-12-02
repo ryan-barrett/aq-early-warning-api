@@ -116,9 +116,7 @@ public class UserService {
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
                 .map(user -> {
-                    /**
-                     * mark account as checked so that we proceed to the next batch
-                     */
+                    // mark account as checked so that we proceed to the next batch
                     UserAccount updatedAccount = new UserAccount(user);
                     updateUserAccount(updatedAccount).subscribe();
                     return user;
@@ -142,9 +140,8 @@ public class UserService {
                 .filter(user -> user.getMaxAqi() != null)
                 .flatMap(this::getCurrentUserAqi)
                 .map(user -> {
-                    /**
-                     * mark account as checked so that we proceed to the next batch
-                     */
+
+                    // mark account as checked so that we proceed to the next batch
                     UserAccount updatedAccount = new UserAccount(user);
                     updateUserAccount(updatedAccount).subscribe();
                     return user;
