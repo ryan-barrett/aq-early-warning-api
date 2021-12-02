@@ -7,9 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 
@@ -30,9 +28,4 @@ public class AqEarlyWarningApplication {
         FirebaseApp app = FirebaseApp.initializeApp(firebaseOptions, "my-app");
         return FirebaseMessaging.getInstance(app);
     }
-}
-
-@Configuration
-@EnableScheduling
-class SpringConfig {
 }
