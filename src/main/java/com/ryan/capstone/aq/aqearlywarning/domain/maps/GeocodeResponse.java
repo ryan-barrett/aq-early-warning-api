@@ -1,6 +1,9 @@
 package com.ryan.capstone.aq.aqearlywarning.domain.maps;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class GeocodeResponse {
     List<GeocodeResult> results;
@@ -29,12 +32,14 @@ public class GeocodeResponse {
 
     static class GeocodeResult {
         String formattedAddress;
+        Geometry geometry;
 
         public GeocodeResult() {
         }
 
-        public GeocodeResult(String formattedAddress) {
+        public GeocodeResult(String formattedAddress, Geometry geometry) {
             this.formattedAddress = formattedAddress;
+            this.geometry = geometry;
         }
 
         public String getFormattedAddress() {
@@ -49,11 +54,58 @@ public class GeocodeResponse {
             this.formattedAddress = formattedAddress;
         }
 
+        public Geometry getGeometry() {
+            return geometry;
+        }
+
+        public void setGeometry(Geometry geometry) {
+            this.geometry = geometry;
+        }
+
         @Override
         public String toString() {
             return "GeocodeResult{" +
                     "formattedAddress='" + formattedAddress + '\'' +
                     '}';
+        }
+
+        static class Geometry {
+            Map<String, Double> location = new HashMap<>();
+
+            public Geometry() {
+            }
+
+            public Geometry(Map<String, Double> location) {
+                this.location = location;
+            }
+
+            public Map<String, Double> getLocation() {
+                return location;
+            }
+
+            public void setLocation(Map<String, Double> location) {
+                this.location = location;
+            }
+
+            @Override
+            public String toString() {
+                return "Geometry{" +
+                        "location=" + location +
+                        '}';
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Geometry geometry = (Geometry) o;
+                return Objects.equals(location, geometry.location);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(location);
+            }
         }
     }
 }

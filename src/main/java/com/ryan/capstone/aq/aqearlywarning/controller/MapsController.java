@@ -22,4 +22,9 @@ public class MapsController {
     public Mono<GeocodeResponse> geocode(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
         return mapsService.geocode(latitude, longitude);
     }
+
+    @GetMapping("/address")
+    public Mono<GeocodeResponse> addressSearch(@RequestParam("address") String address) {
+        return mapsService.addressSearch(address);
+    }
 }

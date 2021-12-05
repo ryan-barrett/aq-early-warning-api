@@ -25,4 +25,13 @@ public class MapsService {
                 .retrieve()
                 .bodyToMono(GeocodeResponse.class);
     }
+
+    public Mono<GeocodeResponse> addressSearch(String address) {
+        logger.info("searching for address coordinates " + address);
+        return client.get().uri("/geocode/json?address={address}&key={googleMapsKey}",
+                        address, googleMapsKey)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(GeocodeResponse.class);
+    }
 }
