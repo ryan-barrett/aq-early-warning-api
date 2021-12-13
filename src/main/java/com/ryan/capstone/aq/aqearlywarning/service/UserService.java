@@ -161,7 +161,7 @@ public class UserService {
 
     private Flux<UserDTO> getSafeUsersNeedingUpdate() {
         logger.info("fetching users with expired last_check");
-        return userAccountRepository.findSafeUsersNeedingUpdate(LocalDateTime.now().minusSeconds(5))
+        return userAccountRepository.findSafeUsersNeedingUpdate(LocalDateTime.now().minusMinutes(15))
                 .map(user -> {
                     logger.info("expired user found: " + user);
                     return formatUserDTO(user);
@@ -170,7 +170,7 @@ public class UserService {
 
     private Flux<UserDTO> getUsersInDangerNeedingUpdate() {
         logger.info("fetching users with expired last_check");
-        return userAccountRepository.findUsersInDangerNeedingUpdate(LocalDateTime.now().minusSeconds(5))
+        return userAccountRepository.findUsersInDangerNeedingUpdate(LocalDateTime.now().minusMinutes(15))
                 .map(user -> {
                     logger.info("expired user found: " + user);
                     return formatUserDTO(user);
